@@ -1,14 +1,26 @@
 @import 'icons';
 
+$cegeka-blue: #5290cd;
+$cegeka-gray: #e8e8e8;
+
 body{
-    background-color:white;
-    border-radius:2px;
-    background-size: cover;
-    transition: 2s;
-    display: flex;
-    background: linear-gradient(to bottom, white,orangered);
-    #s4-workspace{
-        
+    background-color: $cegeka-gray;
+    .header{
+        background-color: $cegeka-blue;
+        padding: 30px;
+        margin-bottom: 15px;
+        *{
+            color: white;
+        }    
     }
+    .jumbotron{
+        border-radius:0px !important;
+        background-color: white !important;
+    }
+    .contentrow{
+        h1{
+            margin-left: 15px;
+        } 
+    } 
 }
 

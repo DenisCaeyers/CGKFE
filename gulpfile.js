@@ -2,7 +2,8 @@
 
 // Variables
 var project = {
-    version: '1.0.0'
+    version: '1.0.0',
+    buildinfoFile: 'buildinfo.json'
 };
 
 var server = {
@@ -47,7 +48,7 @@ var spsave = require('gulp-spsave');
 // Stylesheet Tasks
 // - Development
 // -- SASS Task
-gulp.task('sass-dev', function () {
+gulp.task('sass-dev',['iconfont-dev'], function () {
   return gulp.src([
       './src/scss/**/*.scss',
     ])
@@ -97,6 +98,13 @@ gulp.task('postcss-prd', ['sass-prd'], function () {
 });
 
 // Javascript Tasks
+// - General, used for writing build info
+
+// - Development
+gulp.task('uglify-dev', function() {
+  return gulp.src('./src/js/*.js')
+    .pipe(gulp.dest('./dev/js'));
+});
 // - Production
 // -- Uglify
 gulp.task('uglify-prd', function() {
@@ -248,11 +256,12 @@ gulp.task("spsavedt", function () {
 });
 // Watch Tasks
 gulp.task('watch', function () {
-    gulp.watch('src/scss/**/*', ['dev']); 
+    gulp.watch('src/scss/**/*', ['postcss-dev']);
+    gulp.watch('src/js/**/*', ['uglify-dev']);
 });
 
 // Watch, development, production and deployment Tasks
 gulp.task('default',['dev', 'webserver', 'watch']);
-gulp.task('dev' ,['postcss-dev']);
+gulp.task('dev' ,['postcss-dev','uglify-dev']);
 gulp.task('prd' ,['postcss-prd','uglify-prd']);
 gulp.task('deploy', ['spsavecss', 'spsavejs', 'spsavefonts', 'spsaveimg', 'spsavepl', 'spsavedt']);

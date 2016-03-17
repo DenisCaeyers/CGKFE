@@ -30,14 +30,19 @@
 .cgkicon-ArrowOutgoing:before {
   content: '\EA02'; }
 
-body {
-  background-color: white;
-  border-radius: 2px;
-  background-size: cover;
-  transition: 2s;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  background: linear-gradient(to bottom, white, orangered); }
+.cgkicon-Contact:before {
+  content: '\EA03'; }
 
-/*# sourceMappingURL=init.css.map */
+body {
+  background-color: #e8e8e8; }
+  body .header {
+    background-color: #5290cd;
+    padding: 30px;
+    margin-bottom: 15px; }
+    body .header * {
+      color: white; }
+  body .jumbotron {
+    border-radius: 0px !important;
+    background-color: white !important; }
+  body .contentrow h1 {
+    margin-left: 15px; }

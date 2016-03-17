@@ -31,10 +31,11 @@
 .cgkicon-ArrowOutgoing:before {
   content: '\EA02'; }
 
+.cgkicon-Contact:before {
+  content: '\EA03'; }
+
 body {
   text-align: center; }
 
 .name {
   font-family: 'Montserrat', sans-serif; }
-
-/*# sourceMappingURL=fonts.css.map */

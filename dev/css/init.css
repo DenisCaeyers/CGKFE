@@ -1,0 +1,11 @@
+body {
+  background-color: white;
+  border-radius: 2px;
+  background-size: cover;
+  transition: 2s;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background: linear-gradient(to bottom, white, black); }
+
+/*# sourceMappingURL=init.css.map */

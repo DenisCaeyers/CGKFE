@@ -20,6 +20,7 @@ var autoprefixer = require('autoprefixer');
 var cssnano = require('gulp-cssnano');
 
 // Javascript Packages
+var uglify = require('gulp-uglify');
 
 // Stylesheet Tasks
 // - Development
@@ -73,6 +74,17 @@ gulp.task('postcss-prd', ['sass-prd'], function () {
 });
 
 // Javascript Tasks
+// - Development
+
+// - Production
+// -- Uglify
+gulp.task('uglify-prd', function() {
+  return gulp.src('./src/js/*.js')
+    .pipe(sourcemaps.init())
+    .pipe(uglify())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('./prd/_catalogs/masterpage/cgk/js'));
+});
 
 // Webserver Tasks
 gulp.task('webserver', function() {
@@ -94,5 +106,5 @@ gulp.task('watch', function () {
 // Watch, development, production and deployment Tasks
 gulp.task('default',['dev', 'webserver', 'watch']);
 gulp.task('dev' ,['postcss-dev']);
-gulp.task('prd' ,['postcss-prd']);
+gulp.task('prd' ,['postcss-prd','uglify-prd']);
 gulp.task('deploy', ['prd'])

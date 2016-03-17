@@ -4,7 +4,16 @@
 var server = {
     host: 'localhost',
     port: '8001',
-    https: false
+    https: true
+}
+
+var sp = {
+    username: "Dominique",
+    password: "Aveve2008",
+    siteUrl: "http://cgk-dev-dominiq.cloudapp.net/",
+    deployfolder: "_catalogs/masterpage/cgk/",
+    domain: "devcegeka",
+    doCheckIn: true
 }
 
 // Global Packages
@@ -12,6 +21,7 @@ var gulp = require('gulp');
 var webserver = require('gulp-webserver');
 var livereload = require('gulp-livereload');
 var sourcemaps = require('gulp-sourcemaps');
+var spsave = require('gulp-spsave');
 
 // Stylesheet Packages
 var sass = require('gulp-sass');
@@ -24,7 +34,7 @@ var uglify = require('gulp-uglify');
 
 // Stylesheet Tasks
 // - Development
-// -- General Build Task
+// -- SASS Task
 gulp.task('sass-dev', function () {
   return gulp.src([
       './src/scss/**/*.scss',
@@ -48,7 +58,7 @@ gulp.task('postcss-dev', ['sass-dev'], function () {
     .pipe(livereload());
 });
 // - Production
-// -- General Build Task
+// -- SASS Task
 gulp.task('sass-prd', function () {
   return gulp.src([
       './src/scss/**/*.scss',
@@ -74,8 +84,6 @@ gulp.task('postcss-prd', ['sass-prd'], function () {
 });
 
 // Javascript Tasks
-// - Development
-
 // - Production
 // -- Uglify
 gulp.task('uglify-prd', function() {
@@ -86,7 +94,8 @@ gulp.task('uglify-prd', function() {
     .pipe(gulp.dest('./prd/_catalogs/masterpage/cgk/js'));
 });
 
-// Webserver Tasks
+// Web Deployment Tasks
+// - Run local webserver
 gulp.task('webserver', function() {
   gulp.src( '.' )
     .pipe(webserver({
@@ -98,6 +107,79 @@ gulp.task('webserver', function() {
     }));
 });
 
+// - Upload to SharePoint
+gulp.task("spsavecss",['postcss-prd'],  function(){
+    return gulp.src("./prd/_catalogs/masterpage/cgk/css/*.*")
+        .pipe(spsave({
+            username: sp.username,
+            password: sp.password,
+            domain: sp.domain,
+            siteUrl: sp.siteUrl,
+            folder: sp.deployfolder + "css",
+            checkin: sp.doCheckIn,
+            checkinType: 'major'
+        }));
+});
+gulp.task("spsavefonts", function () {
+    return gulp.src("./prd/_catalogs/masterpage/cgk/fonts/*.*")
+        .pipe(spsave({
+            username: sp.username,
+            password: sp.password,
+            domain: sp.domain,
+            siteUrl: sp.siteUrl,
+            folder: sp.deployfolder + "fonts",
+            checkin: sp.doCheckIn,
+            checkinType: 'major'
+        }));
+});
+gulp.task("spsavejs",['uglify-prd'], function () {
+    return gulp.src("./prd/_catalogs/masterpage/cgk/js/*.*")
+        .pipe(spsave({
+            username: sp.username,
+            password: sp.password,
+            domain: sp.domain,
+            siteUrl: sp.siteUrl,
+            folder: sp.deployfolder + "js",
+            checkin: sp.doCheckIn,
+            checkinType: 'major'
+        }));
+});
+gulp.task("spsaveimg", function () {
+    return gulp.src("./prd/_catalogs/masterpage/cgk/img/*.*")
+        .pipe(spsave({
+            username: sp.username,
+            password: sp.password,
+            domain: sp.domain,
+            siteUrl: sp.siteUrl,
+            folder: sp.deployfolder + "img",
+            checkin: sp.doCheckIn,
+            checkinType: 'major'
+        }));
+});
+gulp.task("spsavepl", function () {
+    return gulp.src("./prd/_catalogs/masterpage/cgk/page layouts/*.*")
+        .pipe(spsave({
+            username: sp.username,
+            password: sp.password,
+            domain: sp.domain,
+            siteUrl: sp.siteUrl,
+            folder: sp.deployfolder + "page layouts",
+            checkin: sp.doCheckIn,
+            checkinType: 'major'
+        }));
+});
+gulp.task("spsavedt", function () {
+    return gulp.src("./prd/_catalogs/masterpage/cgk/display templates/*.*")
+        .pipe(spsave({
+            username: sp.username,
+            password: sp.password,
+            domain: sp.domain,
+            siteUrl: sp.siteUrl,
+            folder: sp.deployfolder + "display templates",
+            checkin: sp.doCheckIn,
+            checkinType: 'major'
+        }));
+});
 // Watch Tasks
 gulp.task('watch', function () {
     gulp.watch('src/scss/**/*', ['dev']); 
@@ -107,4 +189,4 @@ gulp.task('watch', function () {
 gulp.task('default',['dev', 'webserver', 'watch']);
 gulp.task('dev' ,['postcss-dev']);
 gulp.task('prd' ,['postcss-prd','uglify-prd']);
-gulp.task('deploy', ['prd'])
+gulp.task('deploy', ['spsavecss', 'spsavejs', 'spsavefonts', 'spsaveimg', 'spsavepl', 'spsavedt']);

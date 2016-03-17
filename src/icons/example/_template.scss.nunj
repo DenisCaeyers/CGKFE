@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "{{ fontName }}";
+
+  src: url('{{ fontPath }}{{ fontName }}.eot?v={{ version }}');
+  src: url('{{ fontPath }}{{ fontName }}.eot?v={{ version }}#iefix') format('embedded-opentype'),
+  //url('{{ fontPath }}{{ fontName }}.woff?v={{ version }}') format('woff'),
+  url('{{ fontPath }}{{ fontName }}.ttf?v={{ version }}') format('truetype');
+}
+
+[class^="MunaluxIcon-"], [class*=" MunaluxIcon-"], .MunaluxIcon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '{{ fontName }}' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size:40px;
+  vertical-align: middle;
+
+  /* Better Font Rendering  */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="MunaluxIcon-"]:hover, [class*=" MunaluxIcon-"]:hover, .MunaluxIcon:hover {
+  color:$primaryYellow;
+
+  /* Better Font Rendering  */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+{% for glyph in glyphs %}
+.MunaluxIcon-{{ glyph.name }}:before {
+  content: '\{{ glyph.codePoint }}';
+}
+{% endfor %}

@@ -18,19 +18,27 @@ var sp = {
 
 // Global Packages
 var gulp = require('gulp');
-var webserver = require('gulp-webserver');
-var livereload = require('gulp-livereload');
 var sourcemaps = require('gulp-sourcemaps');
-var spsave = require('gulp-spsave');
 
 // Stylesheet Packages
 var sass = require('gulp-sass');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var cssnano = require('gulp-cssnano');
+var iconfont = require('gulp-iconfont');
 
 // Javascript Packages
 var uglify = require('gulp-uglify');
+
+// Image & font packages
+var iconfont = require('gulp-iconfont');
+var rename = require('gulp-rename');
+var consolidate = require('gulp-consolidate');
+
+// Web Deployment packages
+var webserver = require('gulp-webserver');
+var livereload = require('gulp-livereload');
+var spsave = require('gulp-spsave');
 
 // Stylesheet Tasks
 // - Development
@@ -57,6 +65,7 @@ gulp.task('postcss-dev', ['sass-dev'], function () {
     .pipe(gulp.dest('./dev/css'))
     .pipe(livereload());
 });
+
 // - Production
 // -- SASS Task
 gulp.task('sass-prd', function () {
@@ -93,6 +102,59 @@ gulp.task('uglify-prd', function() {
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./prd/_catalogs/masterpage/cgk/js'));
 });
+
+// Image & Font Tasks
+// -- Font generator
+gulp.task('iconfont-dev', function () {
+    // Variables
+    var iconFontName = 'cgkFont';
+
+    // Normalized setting (SVG's are exported with a 500px height)
+    var iconFontSettings = {
+        fontName: iconFontName,
+        fixedWith: false,
+        normalize: true,
+        appendCodepoints: false,
+        centerHorizontally: true,
+        fontHeight: 1001 // IMPORTANT
+    };
+
+    return gulp.src(['./src/icons/*.svg'])
+      .pipe(iconfont(iconFontSettings))
+      .on('glyphs', function (glyphs) {
+          var options = {
+              glyphs: glyphs.map(function (glyph) {
+                  //process.stdout.write(JSON.stringify(glyph));
+                  //process.stdout.write('\n');
+                  // this line is needed because gulp-iconfont has changed the api from 2.0
+                  return {
+                      name: glyph.name,
+                      codePoint: glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase()
+                  }
+              }),
+              fontName: iconFontName,
+              version: variables.version,
+              filename: './src/src/iconfonts.scss',
+              fontPath: './dev/fonts/', // set path to font (from your CSS file if relative)
+              cssClass: 'cgkIcon' // set class name in your CSS
+          };
+
+          gulp.src('./src/icons/example/_template.scss.nunj')
+            .pipe(consolidate('nunjucks', options))
+            .pipe(rename('_icons.scss'))
+            .pipe(gulp.dest('./src/scss/scss/')); // set path to export your SCSS
+
+          // Sample HTML
+          gulp.src('./src/icons/example/list-icons.html.nunj')
+            .pipe(consolidate('nunjucks', options))
+            .pipe(rename('list-icons.html'))
+            .pipe(gulp.dest('./dev/fonts/example/')); // set path to export your sample HTML
+      })
+      .pipe(
+        gulp.dest('./src/dev/fonts/')
+      );
+});
+
 
 // Web Deployment Tasks
 // - Run local webserver

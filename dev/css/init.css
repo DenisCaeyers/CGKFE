@@ -1,3 +1,35 @@
+@font-face {
+  font-family: "cgkFont";
+  src: url("../fonts/cgkFont.eot?v=1.0.0");
+  src: url("../fonts/cgkFont.eot?v=1.0.0#iefix") format("embedded-opentype"), url("../fonts/cgkFont.ttf?v=1.0.0") format("truetype"); }
+
+[class^="cgkicon-"], [class*=" cgkicon-"], .cgkicon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'cgkFont' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 40px;
+  vertical-align: middle;
+  /* Better Font Rendering  */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+[class^="cgkicon-"]:hover, [class*=" cgkicon-"]:hover, .cgkicon:hover {
+  color: black;
+  /* Better Font Rendering  */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cgkicon-ArrowIncoming:before {
+  content: '\EA01'; }
+
+.cgkicon-ArrowOutgoing:before {
+  content: '\EA02'; }
+
 body {
   background-color: white;
   border-radius: 2px;

@@ -1,6 +1,10 @@
 // Description
 
 // Variables
+var project = {
+    version: '1.0.0'
+};
+
 var server = {
     host: 'localhost',
     port: '8001',
@@ -133,25 +137,25 @@ gulp.task('iconfont-dev', function () {
                   }
               }),
               fontName: iconFontName,
-              version: variables.version,
-              filename: './src/src/iconfonts.scss',
-              fontPath: './dev/fonts/', // set path to font (from your CSS file if relative)
+              version: project.version,
+              filename: './src/scss/init.scss',
+              fontPath: '../fonts/', // set path to font (from your CSS file if relative)
               cssClass: 'cgkIcon' // set class name in your CSS
           };
 
           gulp.src('./src/icons/example/_template.scss.nunj')
             .pipe(consolidate('nunjucks', options))
             .pipe(rename('_icons.scss'))
-            .pipe(gulp.dest('./src/scss/scss/')); // set path to export your SCSS
+            .pipe(gulp.dest('./src/scss/')); // set path to export your SCSS
 
           // Sample HTML
           gulp.src('./src/icons/example/list-icons.html.nunj')
             .pipe(consolidate('nunjucks', options))
-            .pipe(rename('list-icons.html'))
+            .pipe(rename('index.html'))
             .pipe(gulp.dest('./dev/fonts/example/')); // set path to export your sample HTML
       })
       .pipe(
-        gulp.dest('./src/dev/fonts/')
+        gulp.dest('./dev/fonts/')
       );
 });
 

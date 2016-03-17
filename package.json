@@ -26,6 +26,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-spsave": "^1.0.6",
     "gulp-uglify": "^1.5.3",
-    "gulp-webserver": "^0.9.1"
+    "gulp-webserver": "^0.9.1",
+    "nunjucks": "^2.4.0"
   }
 }

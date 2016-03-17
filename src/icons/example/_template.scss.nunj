@@ -7,7 +7,7 @@
   url('{{ fontPath }}{{ fontName }}.ttf?v={{ version }}') format('truetype');
 }
 
-[class^="MunaluxIcon-"], [class*=" MunaluxIcon-"], .MunaluxIcon {
+[class^="cgkicon-"], [class*=" cgkicon-"], .cgkicon {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: '{{ fontName }}' !important;
   speak: none;
@@ -24,8 +24,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-[class^="MunaluxIcon-"]:hover, [class*=" MunaluxIcon-"]:hover, .MunaluxIcon:hover {
-  color:$primaryYellow;
+[class^="cgkicon-"]:hover, [class*=" cgkicon-"]:hover, .cgkicon:hover {
+  color:black;
 
   /* Better Font Rendering  */
   -webkit-font-smoothing: antialiased;
@@ -33,7 +33,7 @@
 }
 
 {% for glyph in glyphs %}
-.MunaluxIcon-{{ glyph.name }}:before {
+.cgkicon-{{ glyph.name }}:before {
   content: '\{{ glyph.codePoint }}';
 }
 {% endfor %}

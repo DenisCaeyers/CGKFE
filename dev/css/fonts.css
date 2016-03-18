@@ -1,12 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 @font-face {
-  font-family: "cgkFont";
-  src: url("../fonts/cgkFont.eot?v=1.0.0");
-  src: url("../fonts/cgkFont.eot?v=1.0.0#iefix") format("embedded-opentype"), url("../fonts/cgkFont.ttf?v=1.0.0") format("truetype"); }
+  font-family: "cgkIcon";
+  src: url("../fonts/cgkIcon.eot?v=1.0.0");
+  src: url("../fonts/cgkIcon.eot?v=1.0.0#iefix") format("embedded-opentype"), url("../fonts/cgkIcon.ttf?v=1.0.0") format("truetype"); }
 
 [class^="cgkicon-"], [class*=" cgkicon-"], .cgkicon {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'cgkFont' !important;
+  font-family: 'cgkIcon' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;

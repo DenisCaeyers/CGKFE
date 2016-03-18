@@ -3,7 +3,8 @@
 // Variables
 var project = {
     version: '1.0.0',
-    buildinfoFile: 'buildinfo.json'
+    buildinfoFile: 'buildinfo.json',
+    iconFontClass: 'cgkIcon'
 };
 
 var server = {
@@ -119,7 +120,7 @@ gulp.task('uglify-prd', function() {
 // -- Font generator
 gulp.task('iconfont-dev', function () {
     // Variables
-    var iconFontName = 'cgkFont';
+    var iconFontName = project.iconFontClass;
 
     // Normalized setting (SVG's are exported with a 500px height)
     var iconFontSettings = {

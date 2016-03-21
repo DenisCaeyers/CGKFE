@@ -24,6 +24,7 @@ var sp = {
 
 // Global Packages
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 
 // Stylesheet Packages
@@ -40,6 +41,10 @@ var uglify = require('gulp-uglify');
 var iconfont = require('gulp-iconfont');
 var rename = require('gulp-rename');
 var consolidate = require('gulp-consolidate');
+
+// JSON Packages
+var jsonfile = require('jsonfile');
+var fs = require('fs');
 
 // Web Deployment packages
 var webserver = require('gulp-webserver');
@@ -168,7 +173,6 @@ gulp.task('iconfont-dev', function () {
       );
 });
 
-
 // Web Deployment Tasks
 // - Run local webserver
 gulp.task('webserver', function() {
@@ -180,6 +184,29 @@ gulp.task('webserver', function() {
       https:            server.https,
       directoryListing: false
     }));
+});
+
+// - Create Buildinfo
+gulp.task('writebuildinfo-prd', function(){
+    // Read Synchrously
+    var content = fs.readFileSync(project.buildinfoFile);
+    var parsed = JSON.parse(content);
+    var length = parsed.builds[1].prd.length;
+    parsed.builds[1].prd[length] = {"date" : new Date().toLocaleString()};
+    jsonfile.writeFile(project.buildinfoFile, parsed, function(err){
+        console.log(err);
+    });
+});
+
+gulp.task('writebuildinfo-deploy', function(){
+    // Read Synchrously
+    var content = fs.readFileSync(project.buildinfoFile);
+    var parsed = JSON.parse(content);
+    var length = parsed.builds[0].deploy.length;
+    parsed.builds[0].deploy[length] = {"date" : new Date().toLocaleString()};
+    jsonfile.writeFile(project.buildinfoFile, parsed, function(err){
+        console.log(err);
+    });
 });
 
 // - Upload to SharePoint
@@ -264,5 +291,5 @@ gulp.task('watch', function () {
 // Watch, development, production and deployment Tasks
 gulp.task('default',['dev', 'webserver', 'watch']);
 gulp.task('dev' ,['postcss-dev','uglify-dev']);
-gulp.task('prd' ,['postcss-prd','uglify-prd']);
-gulp.task('deploy', ['spsavecss', 'spsavejs', 'spsavefonts', 'spsaveimg', 'spsavepl', 'spsavedt']);
+gulp.task('prd' ,['postcss-prd','uglify-prd','writebuildinfo-prd']);
+gulp.task('deploy', ['spsavecss', 'spsavejs', 'spsavefonts', 'spsaveimg', 'spsavepl', 'spsavedt', 'writebuildinfo-deploy']);

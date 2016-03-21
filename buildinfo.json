@@ -1,10 +1,18 @@
-{"builds":[
-    {"deploy":[
-        {"date": "Juistekes"}
-    ]},
-    {"prd":[
-        {"date": "Vandaag"},
-        {"date": "Morgen"},
-        {"date": "Overmorgen"}
-    ]}
-]}
+{
+    "builds": [
+        {
+            "deploy": [
+                {
+                    "date": "Initial Project Setup"
+                }
+            ]
+        },
+        {
+            "prd": [
+                {
+                    "date": "Initial Project Setup"
+                }
+            ]
+        }
+    ]
+}

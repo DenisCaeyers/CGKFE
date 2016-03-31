@@ -34,6 +34,7 @@
   content: '\EA03'; }
 
 body {
+  display: flex;
   background-color: #e8e8e8; }
   body .header {
     background-color: #5290cd;

@@ -16,9 +16,9 @@ var server = {
 var sp = {
     username: "Dominique",
     password: "Aveve2008",
+    domain: "devcegeka",
     siteUrl: "http://cgk-dev-dominiq.cloudapp.net/",
     deployfolder: "_catalogs/masterpage/cgk/",
-    domain: "devcegeka",
     doCheckIn: true
 }
 
@@ -65,7 +65,7 @@ gulp.task('sass-dev',['iconfont-dev'], function () {
 gulp.task('postcss-dev', ['sass-dev'], function () {
   var processors = [
     autoprefixer({
-      browsers: ['last 3 versions'],
+      browsers: ['last 5 versions'],
       cascade: false
     }),
   ];

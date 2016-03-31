@@ -1,18 +1,1 @@
-{
-    "builds": [
-        {
-            "deploy": [
-                {
-                    "date": "Initial Project Setup"
-                }
-            ]
-        },
-        {
-            "prd": [
-                {
-                    "date": "Initial Project Setup"
-                }
-            ]
-        }
-    ]
-}
+{"builds":[{"deploy":[{"date":"Initial Project Setup"}]},{"prd":[{"date":"Initial Project Setup"},{"date":"3/21/2016, 12:59:58 PM"}]}]}

@@ -177,19 +177,19 @@ gulp.task('iconfont-dev', function () {
 // Copy non optimizable files
 // - Development
 // -- Display Templates
-gulp.task('copy-dp-prd', function() {
+gulp.task('copy-dp-dev', function() {
   return gulp.src('./src/display templates/*.html')
     .pipe(gulp.dest('./dev/display templates/'));
 });
 
 // -- Images
-gulp.task('copy-img-prd', function() {
+gulp.task('copy-img-dev', function() {
   return gulp.src('./src/img/**.*')
     .pipe(gulp.dest('./dev/img/'));
 });
 
 // -- Page Layouts
-gulp.task('copy-pl-prd', function() {
+gulp.task('copy-pl-dev', function() {
   return gulp.src('./src/page layouts/*.aspx')
     .pipe(gulp.dest('./dev/page layouts/'));
 });
@@ -330,6 +330,6 @@ gulp.task('watch', function () {
 
 // Watch, development, production and deployment Tasks
 gulp.task('default',['dev', 'webserver', 'watch']);
-gulp.task('dev' ,['postcss-dev','uglify-dev']);
+gulp.task('dev' ,['postcss-dev','uglify-dev','copy-dp-dev','copy-img-dev','copy-pl-dev']);
 gulp.task('prd' ,['postcss-prd','uglify-prd','copy-dp-prd','copy-img-prd','copy-pl-prd','writebuildinfo-prd']);
 gulp.task('deploy', ['spsavecss', 'spsavejs', 'spsavefonts', 'spsaveimg', 'spsavepl', 'spsavedt', 'writebuildinfo-deploy']);

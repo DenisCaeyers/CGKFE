@@ -4,7 +4,8 @@
 var project = {
     version: '1.0.0',
     buildinfoFile: 'buildinfo.json',
-    iconFontClass: 'cgkIcon'
+    iconFontClass: 'cgkIcon',
+    customerPrdFolderName: 'cgk'
 };
 
 var server = {
@@ -84,7 +85,7 @@ gulp.task('sass-prd', function () {
       './src/scss/**/*.scss',
     ])
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./prd/_catalogs/masterpage/cgk/css'));
+    .pipe(gulp.dest('./prd/_catalogs/masterpage/' + project.customerPrdFolderName + '/css'));
 });
 // -- Post CSS Task
 gulp.task('postcss-prd', ['sass-prd'], function () {
@@ -94,12 +95,12 @@ gulp.task('postcss-prd', ['sass-prd'], function () {
       cascade: false
     }),
   ];
-  return gulp.src('./prd/_catalogs/masterpage/cgk/css/*.css')
+  return gulp.src('./prd/_catalogs/masterpage/' + project.customerPrdFolderName + '/css/*.css')
     .pipe(sourcemaps.init())
     .pipe(postcss(processors))
     .pipe(cssnano())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./prd/_catalogs/masterpage/cgk/css'))
+    .pipe(gulp.dest('./prd/_catalogs/masterpage/' + project.customerPrdFolderName + '/css'))
     .pipe(livereload());
 });
 
@@ -118,7 +119,7 @@ gulp.task('uglify-prd', function() {
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./prd/_catalogs/masterpage/cgk/js'));
+    .pipe(gulp.dest('./prd/_catalogs/masterpage/' + project.customerPrdFolderName + '/js'));
 });
 
 // Image & Font Tasks
@@ -173,6 +174,45 @@ gulp.task('iconfont-dev', function () {
       );
 });
 
+// Copy non optimizable files
+// - Development
+// -- Display Templates
+gulp.task('copy-dp-prd', function() {
+  return gulp.src('./src/display templates/*.html')
+    .pipe(gulp.dest('./dev/display templates/'));
+});
+
+// -- Images
+gulp.task('copy-img-prd', function() {
+  return gulp.src('./src/img/**.*')
+    .pipe(gulp.dest('./dev/img/'));
+});
+
+// -- Page Layouts
+gulp.task('copy-pl-prd', function() {
+  return gulp.src('./src/page layouts/*.aspx')
+    .pipe(gulp.dest('./dev/page layouts/'));
+});
+
+// - Production
+// -- Display Templates
+gulp.task('copy-dp-prd', function() {
+  return gulp.src('./src/display templates/*.html')
+    .pipe(gulp.dest('./prd/_catalogs/masterpage/Display Templates/Search'));
+});
+
+// -- Images
+gulp.task('copy-img-prd', function() {
+  return gulp.src('./src/img/**.*')
+    .pipe(gulp.dest('./prd/_catalogs/masterpage/' + project.customerPrdFolderName + '/img'));
+});
+
+// -- Page Layouts
+gulp.task('copy-pl-prd', function() {
+  return gulp.src('./src/page layouts/*.aspx')
+    .pipe(gulp.dest('./prd/_catalogs/masterpage'));
+});
+
 // Web Deployment Tasks
 // - Run local webserver
 gulp.task('webserver', function() {
@@ -211,7 +251,7 @@ gulp.task('writebuildinfo-deploy', function(){
 
 // - Upload to SharePoint
 gulp.task("spsavecss",['postcss-prd'],  function(){
-    return gulp.src("./prd/_catalogs/masterpage/cgk/css/*.*")
+    return gulp.src('./prd/_catalogs/masterpage/' + project.customerPrdFolderName + '/css/*.*')
         .pipe(spsave({
             username: sp.username,
             password: sp.password,
@@ -223,7 +263,7 @@ gulp.task("spsavecss",['postcss-prd'],  function(){
         }));
 });
 gulp.task("spsavefonts", function () {
-    return gulp.src("./prd/_catalogs/masterpage/cgk/fonts/*.*")
+    return gulp.src("./prd/_catalogs/masterpage/" + project.customerPrdFolderName + "/fonts/*.*")
         .pipe(spsave({
             username: sp.username,
             password: sp.password,
@@ -235,7 +275,7 @@ gulp.task("spsavefonts", function () {
         }));
 });
 gulp.task("spsavejs",['uglify-prd'], function () {
-    return gulp.src("./prd/_catalogs/masterpage/cgk/js/*.*")
+    return gulp.src("./prd/_catalogs/masterpage/" + project.customerPrdFolderName + "/js/*.*")
         .pipe(spsave({
             username: sp.username,
             password: sp.password,
@@ -247,7 +287,7 @@ gulp.task("spsavejs",['uglify-prd'], function () {
         }));
 });
 gulp.task("spsaveimg", function () {
-    return gulp.src("./prd/_catalogs/masterpage/cgk/img/*.*")
+    return gulp.src("./prd/_catalogs/masterpage/" + project.customerPrdFolderName + "/img/*.*")
         .pipe(spsave({
             username: sp.username,
             password: sp.password,
@@ -259,7 +299,7 @@ gulp.task("spsaveimg", function () {
         }));
 });
 gulp.task("spsavepl", function () {
-    return gulp.src("./prd/_catalogs/masterpage/cgk/page layouts/*.*")
+    return gulp.src("./prd/_catalogs/masterpage/" + project.customerPrdFolderName + "/page layouts/*.*")
         .pipe(spsave({
             username: sp.username,
             password: sp.password,
@@ -271,7 +311,7 @@ gulp.task("spsavepl", function () {
         }));
 });
 gulp.task("spsavedt", function () {
-    return gulp.src("./prd/_catalogs/masterpage/cgk/display templates/*.*")
+    return gulp.src("./prd/_catalogs/masterpage/" + project.customerPrdFolderName + "/display templates/*.*")
         .pipe(spsave({
             username: sp.username,
             password: sp.password,
@@ -291,5 +331,5 @@ gulp.task('watch', function () {
 // Watch, development, production and deployment Tasks
 gulp.task('default',['dev', 'webserver', 'watch']);
 gulp.task('dev' ,['postcss-dev','uglify-dev']);
-gulp.task('prd' ,['postcss-prd','uglify-prd','writebuildinfo-prd']);
+gulp.task('prd' ,['postcss-prd','uglify-prd','copy-dp-prd','copy-img-prd','copy-pl-prd','writebuildinfo-prd']);
 gulp.task('deploy', ['spsavecss', 'spsavejs', 'spsavefonts', 'spsaveimg', 'spsavepl', 'spsavedt', 'writebuildinfo-deploy']);

@@ -19,7 +19,7 @@ var sp = {
     password: "Aveve2008",
     domain: "devcegeka",
     siteUrl: "http://cgk-dev-dominiq.cloudapp.net/",
-    deployfolder: "_catalogs/masterpage/cgk/",
+    deployfolder: "_catalogs/masterpage/" + project.customerPrdFolderName + "/",
     doCheckIn: true
 }
 
@@ -326,6 +326,9 @@ gulp.task("spsavedt", function () {
 gulp.task('watch', function () {
     gulp.watch('src/scss/**/*', ['postcss-dev']);
     gulp.watch('src/js/**/*', ['uglify-dev']);
+    gulp.watch('src/display templates/**/*', ['copy-dp-dev']);
+    gulp.watch('src/img/**/*', ['copy-img-dev']);
+    gulp.watch('src/page layouts/**/*', ['copy-pl-dev']);
 });
 
 // Watch, development, production and deployment Tasks
